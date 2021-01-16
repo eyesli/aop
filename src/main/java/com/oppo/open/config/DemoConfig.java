@@ -3,7 +3,6 @@ package com.oppo.open.config;
 import com.oppo.open.aop.LogAspect;
 import com.oppo.open.properties.HelloServiceProperties;
 import com.oppo.open.service.DemoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -18,8 +17,13 @@ import org.springframework.context.annotation.Configuration;
         havingValue = "true"
 )
 public class DemoConfig {
-    @Autowired
-    private HelloServiceProperties helloProperties;
+
+    private final HelloServiceProperties helloServiceProperties;
+
+    public DemoConfig(HelloServiceProperties helloServiceProperties) {
+        this.helloServiceProperties = helloServiceProperties;
+    }
+
     @Bean
     public LogAspect logAspect() {
         return new LogAspect();
@@ -27,6 +31,6 @@ public class DemoConfig {
     @Bean
     @ConditionalOnMissingBean
     public DemoService helloService() {
-               return new DemoService(this.helloProperties.getPrefix(),this.helloProperties.getSuffix());
+               return new DemoService(this.helloServiceProperties.getPrefix(),this.helloServiceProperties.getSuffix());
       }
 }

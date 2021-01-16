@@ -1,5 +1,8 @@
 package com.oppo.open.service;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class DemoService {
      public String sayWhat;
      public String toWho;
